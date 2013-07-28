@@ -11,7 +11,7 @@ let s:source = {
 function! s:source.initialize()"{{{
   let s:keywords = []
   let s:objects = {
- \  'Workbook': { 
+ \  'Integer': { 
  \    'create': 'Dim',
  \    'member': { 'Name' : 'v', 
  \                'Path' : 'v' , 
@@ -47,7 +47,7 @@ function! s:source.get_keyword_pos(cur_text)"{{{
     return -1
   endif
   if &modified
-    call excel_vba_complete#get_all_variables
+    call excel_vba_complete#get_all_variables()
   endif
   for word1 in keys(s:variables)
     if a:cur_text =~ word1
