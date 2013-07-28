@@ -69,7 +69,7 @@ endfunction"}}}
 function! excel_vba_complete#get_variables(line)"{{{
   "let temp_line = substitute(a:line, '\s', '', 'g')
   "echo temp_line
-  if a:line=~ 'Dim'
+  if a:line=~ 'Dim' || a:line =~ 'dim'
     "let list = matchlist(a:line, '\(\w*\)\(=\)new\(\w*\)')
     let list = matchlist(a:line, '\s*[Dim|dim]\s*\(\w*\)\s*[As|as]\s*\(\w*\)')
     "echo list
