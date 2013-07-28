@@ -67,11 +67,11 @@ function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
 endfunction"}}}
 
 function! excel_vba_complete#get_variables(line)"{{{
-  let temp_line = substitute(a:line, '\s', '', 'g')
+  "let temp_line = substitute(a:line, '\s', '', 'g')
   "echo temp_line
-  if temp_line =~ '=' && ( temp_line=~ 'Dim' || temp_line =~ 'dim')
-    "let list = matchlist(temp_line, '\(\w*\)\(=\)new\(\w*\)')
-    let list = matchlist(temp_line, '\s*[Dim,dim]\s*\(\w*\)\s*[As,as]\s*\(\w*\)')
+  if a:line =~ '=' && ( a:line=~ 'Dim' || a:line =~ 'dim')
+    "let list = matchlist(a:line, '\(\w*\)\(=\)new\(\w*\)')
+    let list = matchlist(a:line, '\s*[Dim,dim]\s*\(\w*\)\s*[As,as]\s*\(\w*\)')
     "echo list
     for k in keys(s:objects)
       "echo k
