@@ -71,7 +71,7 @@ function! excel_vba_complete#get_variables(line)"{{{
   "echo temp_line
   if a:line=~ 'Dim'
     "let list = matchlist(a:line, '\(\w*\)\(=\)new\(\w*\)')
-    let list = matchlist(a:line, '\s*Dim\s*\(\w*\)\s*As\s*\(\w*\)')
+    let list = matchlist(a:line, '\s*[Dim|dim]\s*\(\w*\)\s*[As|as]\s*\(\w*\)')
     "echo list
     for k in keys(s:objects)
       "echo k
