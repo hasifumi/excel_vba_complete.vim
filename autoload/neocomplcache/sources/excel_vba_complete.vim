@@ -75,9 +75,9 @@ function! excel_vba_complete#get_variables(line)"{{{
     "echo list
     for k in keys(s:objects)
       "echo k
-      if (len(list) > 0) && (k =~ list[3])
+      if (len(list) > 0) && (k =~ list[2])
         if !has_key(s:variables, list[1])
-          let s:variables[list[1]] = { 'type': list[3] }
+          let s:variables[list[1]] = { 'type': list[2] }
           "echo "s:variables[list[1]][type]:" . s:variables[list[1]]['type']
         endif  
       endif  
