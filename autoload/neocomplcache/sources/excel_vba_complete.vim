@@ -72,14 +72,15 @@ function! excel_vba_complete#get_variables(line)"{{{
   "if a:line=~ 'Dim' || a:line =~ 'dim'
   "  let list = matchlist(a:line, '\s*[Dim|dim]\s*\(\w*\)\s*[As|as]\s*\(\w*\)')
   if a:line=~ 'Dim'
+    echo a:line
     let list = matchlist(a:line, '\s*Dim\s*\(\w*\)\s*As\s*\(\w*\)')
-    "echo list
+    echo list
     for k in keys(s:objects)
-      "echo k
+      echo k
       if (len(list) > 0) && (k =~ list[2])
         if !has_key(s:variables, list[1])
           let s:variables[list[1]] = { 'type': list[2] }
-          "echo "s:variables[list[1]][type]:" . s:variables[list[1]]['type']
+          echo "s:variables[list[1]][type]:" . s:variables[list[1]]['type']
         endif  
       endif  
     endfor
