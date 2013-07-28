@@ -52,7 +52,7 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   for word1 in keys(s:variables)
     if a:cur_text =~ word1
       for word in keys(s:objects[s:variables[word1]['type']]['member'])
-        echo "add " . word1 . "." . word . " to s:keywords"
+        "echo "add " . word1 . "." . word . " to s:keywords"
         call add(s:keywords, { 'word' : word1.".".word, 'menu': '[excel_vba_complete]', 
          \ 'kind' : s:objects[s:variables[word1]['type']]['member'][word]})
       endfor
@@ -71,17 +71,17 @@ function! excel_vba_complete#get_variables(line)"{{{
   "echo temp_line
   if temp_line =~ '=' && ( temp_line=~ 'Dim' || temp_line =~ 'dim')
     "let list = matchlist(temp_line, '\(\w*\)\(=\)new\(\w*\)')
-    let list = matchlist(temp_line, '\s[Dim,dim]\s\(\w*\)\s[As,as]\s\(\w*\)')
+    let list = matchlist(temp_line, '\s*[Dim,dim]\s*\(\w*\)\s*[As,as]\s*\(\w*\)')
     "echo list
-    "for k in keys(s:objects)
-    "  "echo k
-    "  if (len(list) > 0) && (k =~ list[3])
-    "    if !has_key(s:variables, list[1])
-    "      let s:variables[list[1]] = { 'type': list[3] }
-    "      "echo "s:variables[list[1]][type]:" . s:variables[list[1]]['type']
-    "    endif  
-    "  endif  
-    "endfor
+    for k in keys(s:objects)
+      "echo k
+      if (len(list) > 0) && (k =~ list[3])
+        if !has_key(s:variables, list[1])
+          let s:variables[list[1]] = { 'type': list[3] }
+          "echo "s:variables[list[1]][type]:" . s:variables[list[1]]['type']
+        endif  
+      endif  
+    endfor
   endif
 endfunction"}}}
 
