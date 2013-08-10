@@ -63,6 +63,8 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   endwhile
   if s:flg
     let s:ret = s:start
+    call add(s:keywords, {'word': strpart(line, s:ret, (s:end - s:start + 1)),
+          \ 'menu': 'excel_vba_complete#test'})
   endif
   echo "s:ret:" . s:ret . ", strpart:" . strpart(line, s:ret, (s:end - s:start + 1))
   return s:ret
