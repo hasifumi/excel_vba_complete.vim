@@ -46,28 +46,20 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   if neocomplcache#within_comment()
     return -1
   endif
-  let s:ret = 0
-  let s:flg = 0
-  let line = getline(".")
-  let s:start = col(".") - 1 
-  let s:end = s:start
-
-  while s:start >= 0
-    if line[s:start] =~ '[\.:[:blank:]]' 
-      if line[s:start] =~ '[\.]'
-        let s:flg = 1
-      endif
+  if &modified
+    call excel_vba_complete#get_all_variables()
+  endif
+  for word1 in keys(s:variables)
+    if a:cur_text =~ word1
+      for word in keys(s:objects[s:variables[word1]['type']]['member'])
+        "echo "add " . word1 . "." . word . " to s:keywords"
+        call add(s:keywords, { 'word' : word1.".".word, 'menu': '[excel_vba_complete]', 
+         \ 'kind' : s:objects[s:variables[word1]['type']]['member'][word]})
+      endfor
+      return match(a:cur_text, word1.".")
       break
     endif
-    let s:start -= 1
-  endwhile
-  if s:flg
-    let s:ret = s:start
-    call add(s:keywords, {'word': strpart(line, s:ret, (s:end - s:start + 1)),
-          \ 'menu': 'excel_vba_complete#test'})
-  endif
-  echo "s:ret:" . s:ret . ", strpart:" . strpart(line, s:ret, (s:end - s:start + 1))
-  return s:ret
+  endfor
 endfunction"}}}
 
 function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
