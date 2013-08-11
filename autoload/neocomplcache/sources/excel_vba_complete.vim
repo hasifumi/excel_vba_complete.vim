@@ -478,6 +478,21 @@ function! excel_vba_complete#initialize()"{{{
 endfunction"}}}
 
 function! s:source.get_keyword_pos(cur_text)"{{{
+  "let l:line = getline(".")
+  "let l:start = col(".") - 1 
+
+  "while l:start >= 0
+  "  if l:line[l:start] =~ '[:[:blank:]]' 
+  "    let l:start = -1
+  "    break
+  "  endif
+  "  if l:line[l:start - 1] =~ '.'
+  "    break
+  "  endif
+  "  let l:start -= 1
+  "endwhile
+  "return l:start
+
   "if neocomplcache#within_comment()
   "  return -1
   "endif
@@ -531,9 +546,12 @@ function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
   if &modified
     call excel_vba_complete#get_all_variables()
   endif
-  call add(s:keywords, {'word': '  test', 'info': a:cur_keyword_str, 'menu': '[excel_vba_complete]'})
+  call add(s:keywords, {
+    \ 'word': 'test', 
+    \ 'abbr': 'str:' . a:cur_keyword_str . ', pos:' . a:cur_keyword_pos,
+    \ 'menu': '[excel_vba_complete]'})
   for word1 in keys(s:variables)
-    if a:cur_keyword_str == word1
+    if a:cur_keyword_str =~# word1
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
       "return match(a:cur_keyword_str, word1.".")
@@ -586,11 +604,19 @@ function! excel_vba_complete#get_all_variables()"{{{
   endfor
 endfunction"}}}
 
+function! excel_vba_complete#show_keywords()"{{{"{{{
+  echo s:keywords
+endfunction"}}}"}}}
+
 function! excel_vba_complete#show_all_variables()"{{{
   for i in keys(s:variables)
     echo ' key: ' . i . ', type: ' . s:variables[i]['type']
   endfor
 endfunction"}}}
+
+function! excel_vba_complete#show_variable(word)"{{{"{{{
+  echo s:variables[a:word]['type']
+endfunction"}}}"}}}
 
 function! excel_vba_complete#show_all_objects()"{{{
   for i in keys(s:objects)
@@ -598,7 +624,7 @@ function! excel_vba_complete#show_all_objects()"{{{
   endfor
 endfunction"}}}
 
-function! excel_vba_complete#show_objects(object)"{{{
+function! excel_vba_complete#show_object(object)"{{{
   echo s:objects[a:object]
 endfunction"}}}
 
@@ -611,11 +637,6 @@ endfunction"}}}
 function! excel_vba_complete#show_temp_object(object)"{{{
   echo s:temp_objects[a:object]
 endfunction"}}}
-
-function! excel_vba_complete#test(word)"{{{"{{{
-  echo s:variables[a:word]['type']
-  echo s:temp_objects[s:variables[a:word]['type']]['member']
-endfunction"}}}"}}}
 
 function! excel_vba_complete#add_temp_object(class, member, kind)"{{{
   "echo "class:" . a:class . ", member:" . a:member . ", kind:" . a:kind
