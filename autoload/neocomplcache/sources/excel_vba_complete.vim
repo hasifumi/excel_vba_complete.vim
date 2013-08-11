@@ -12,171 +12,173 @@ let s:source = {
 
 function! s:source.initialize()"{{{
   let s:keywords = []
-  let s:objects = {
- \  'Workbook': { 
- \    'create': 'Dim',
- \    'property': {
- \       'Name': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \       'Path': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \       'Worksheets': {
- \         'kind': 'o',
- \         'info': '',
- \         'name': 'Worksheets'
- \       },
- \       'ActiveSheet': {
- \         'kind': 'o',
- \         'info': '',
- \         'name': 'Worksheets'
- \       },
- \    },
- \    'method': {
- \       'Delete': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Save': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'SaveAs': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Close': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \    },
- \  },
- \  'Workbooks': { 
- \    'create': 'Dim',
- \    'property': {
- \       'Count': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \    },
- \    'method': {
- \       'Add': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Open': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \    },
- \  },
- \  'Worksheet': { 
- \    'create': 'Dim',
- \    'property': {
- \       'Name': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \       'Range': {
- \         'kind': 'o',
- \         'info': '',
- \         'name': 'Range'
- \       },
- \       'Cells': {
- \         'kind': 'o',
- \         'info': '',
- \         'name': 'Range'
- \       },
- \       'ActiveCell': {
- \         'kind': 'o',
- \         'info': '',
- \         'name': 'Range'
- \       },
- \       'Rows': {
- \         'kind': 'v',
- \         'info': '',
- \         'property': ['Count', 'Height', 'AutoFit()'],
- \       },
- \       'Columns': {
- \         'kind': 'v',
- \         'info': '',
- \         'property': ['Count', 'Width', 'AutoFit()'],
- \       },
- \    },
- \    'method': {
- \       'Paste': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Delete': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Move': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \       'Copy': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \    },
- \  },
- \  'Worksheets': { 
- \    'create': 'Dim',
- \    'property': {
- \       'Count': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \    },
- \    'method': {
- \       'Add': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \    },
- \  },
- \  'Range': { 
- \    'create': 'Dim',
- \    'property': {
- \       'Value': {
- \         'kind': 'v',
- \         'info': '',
- \       },
- \       'End': {
- \         'kind': 'v',
- \         'info': '',
- \         'args': ['xlUp', 'xlDown', 'xltoRight', 'xlToLeft'],
- \       },
- \       'Rows': {
- \         'kind': 'o',
- \         'info': '',
- \         'property': ['Count', 'Height', 'AutoFit()']
- \       },
- \       'Columns': {
- \         'kind': 'o',
- \         'info': '',
- \         'property': ['Count', 'Width', 'AutoFit()']
- \       },
- \    },
- \    'method': {
- \       'Clear': {
- \         'kind': 'f',
- \         'info': '',
- \       },
- \    },
- \  },
- \}
+  let s:objects = {}
+  call excel_vba_complete#initialize_s_objects()
   let s:variables = {}
   let s:line = 0
   let s:temp_objects = {}
 endfunction"}}}
 
 function! excel_vba_complete#initialize_s_objects()"{{{
+"  let s:objects = {"{{{
+" \  'Workbook': { 
+" \    'create': 'Dim',
+" \    'property': {
+" \       'Name': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \       'Path': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \       'Worksheets': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'name': 'Worksheets'
+" \       },
+" \       'ActiveSheet': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'name': 'Worksheets'
+" \       },
+" \    },
+" \    'method': {
+" \       'Delete': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Save': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'SaveAs': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Close': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \    },
+" \  },
+" \  'Workbooks': { 
+" \    'create': 'Dim',
+" \    'property': {
+" \       'Count': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \    },
+" \    'method': {
+" \       'Add': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Open': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \    },
+" \  },
+" \  'Worksheet': { 
+" \    'create': 'Dim',
+" \    'property': {
+" \       'Name': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \       'Range': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'name': 'Range'
+" \       },
+" \       'Cells': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'name': 'Range'
+" \       },
+" \       'ActiveCell': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'name': 'Range'
+" \       },
+" \       'Rows': {
+" \         'kind': 'v',
+" \         'info': '',
+" \         'property': ['Count', 'Height', 'AutoFit()'],
+" \       },
+" \       'Columns': {
+" \         'kind': 'v',
+" \         'info': '',
+" \         'property': ['Count', 'Width', 'AutoFit()'],
+" \       },
+" \    },
+" \    'method': {
+" \       'Paste': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Delete': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Move': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \       'Copy': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \    },
+" \  },
+" \  'Worksheets': { 
+" \    'create': 'Dim',
+" \    'property': {
+" \       'Count': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \    },
+" \    'method': {
+" \       'Add': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \    },
+" \  },
+" \  'Range': { 
+" \    'create': 'Dim',
+" \    'property': {
+" \       'Value': {
+" \         'kind': 'v',
+" \         'info': '',
+" \       },
+" \       'End': {
+" \         'kind': 'v',
+" \         'info': '',
+" \         'args': ['xlUp', 'xlDown', 'xltoRight', 'xlToLeft'],
+" \       },
+" \       'Rows': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'property': ['Count', 'Height', 'AutoFit()']
+" \       },
+" \       'Columns': {
+" \         'kind': 'o',
+" \         'info': '',
+" \         'property': ['Count', 'Width', 'AutoFit()']
+" \       },
+" \    },
+" \    'method': {
+" \       'Clear': {
+" \         'kind': 'f',
+" \         'info': '',
+" \       },
+" \    },
+" \  },
+" \}"}}}
   let l:objects = {}
 
   let l:workbook = {}"{{{
@@ -341,9 +343,11 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \}
   let l:objects['Range'] = l:range"}}}
 
-  if l:objects == s:objects
-    echo "l:objects equals s:objects"
-  endif
+  "if l:objects == s:objects
+  "  echo "l:objects equals s:objects"
+  "endif
+
+  let s:objects = l:objects
 
 "  let s:objects = {"{{{
 " \  'Workbook': { "{{{
