@@ -178,9 +178,10 @@ endfunction"}}}
 
 function! excel_vba_complete#initialize_s_objects()"{{{
   let l:objects = {}
-  let l:workbook = {}
+
+  let l:workbook = {}"{{{
   let l:workbook['create'] = 'Dim'
-  let l:workbook['property'] = {"{{{
+  let l:workbook['property'] = {
  \  'Name': {
  \    'kind': 'v',
  \    'info': '',
@@ -199,8 +200,8 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \    'name': 'Worksheets'
  \  },
- \}"}}}
-  let l:workbook['method'] = {"{{{
+ \}
+  let l:workbook['method'] = {
  \   'Delete': {
  \     'kind': 'f',
  \     'info': '',
@@ -217,18 +218,18 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \     'kind': 'f',
  \     'info': '',
  \   },
- \}"}}}
-  let l:objects['Workbook'] = l:workbook
+ \}
+  let l:objects['Workbook'] = l:workbook"}}}
 
-  let l:workbooks = {}
+  let l:workbooks = {}"{{{
   let l:workbooks['create'] = 'Dim' 
-  let l:workbooks['property'] = {"{{{
+  let l:workbooks['property'] = {
  \  'Count': {
  \    'kind': 'v',
  \    'info': '',
  \  },
- \}"}}}
-  let l:workbooks['method'] = {"{{{
+ \}
+  let l:workbooks['method'] = {
  \  'Add': {
  \    'kind': 'f',
  \    'info': '',
@@ -237,12 +238,12 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'kind': 'f',
  \    'info': '',
  \  },
- \}"}}}
-  let l:objects['Workbooks'] = l:workbooks
+ \}
+  let l:objects['Workbooks'] = l:workbooks"}}}
 
-  let l:worksheet = {}
+  let l:worksheet = {}"{{{
   let l:worksheet['create'] = 'Dim' 
-  let l:worksheet['property'] = {"{{{
+  let l:worksheet['property'] = {
  \  'Name': {
  \    'kind': 'v',
  \    'info': '',
@@ -272,8 +273,8 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \    'property': ['Count', 'Width', 'AutoFit()'],
  \  },
- \}"}}}
-  let l:worksheet['method'] = {"{{{
+ \}"
+  let l:worksheet['method'] = {
  \  'Paste': {
  \    'kind': 'f',
  \    'info': '',
@@ -290,28 +291,28 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'kind': 'f',
  \    'info': '',
  \  },
- \}"}}}
-  let l:objects['Worksheet'] = l:worksheet
+ \}
+  let l:objects['Worksheet'] = l:worksheet"}}}
 
-  let l:worksheets = {}
+  let l:worksheets = {}"{{{
   let l:worksheets['create'] = 'Dim' 
-  let l:worksheets['property'] = {"{{{
+  let l:worksheets['property'] = {
  \  'Count': {
  \    'kind': 'v',
  \    'info': '',
  \  },
- \}"}}}
-  let l:worksheets['method'] = {"{{{
+ \}
+  let l:worksheets['method'] = {
  \  'Add': {
  \    'kind': 'f',
  \    'info': '',
  \  },
- \}"}}}
-  let l:objects['Worksheets'] = l:worksheets
+ \}
+  let l:objects['Worksheets'] = l:worksheets"}}}
 
-  let l:range = {}
+  let l:range = {}"{{{
   let l:range['create'] = 'Dim' 
-  let l:range['property'] = {"{{{
+  let l:range['property'] = {
  \  'Value': {
  \    'kind': 'v',
  \    'info': '',
@@ -331,14 +332,14 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \    'property': ['Count', 'Width', 'AutoFit()']
  \  },
- \}"}}}
-  let l:range['method'] = {"{{{
+ \}
+  let l:range['method'] = {
  \  'Clear': {
  \    'kind': 'f',
  \    'info': '',
  \  },
- \}"}}}
-  let l:objects['Range'] = l:range
+ \}
+  let l:objects['Range'] = l:range"}}}
 
   if l:objects == s:objects
     echo "l:objects equals s:objects"
