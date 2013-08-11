@@ -13,116 +13,167 @@ function! s:source.initialize()"{{{
   let s:objects = {
  \  'Workbook': { 
  \    'create': 'Dim',
- \    'member': { 'Name' : 'v', 
- \                'Path' : 'v' , 
- \                'Worksheets' : 'v' , 
- \                'ActiveSheet' : 'v' , 
- \                'Delete' : 'f' , 
- \                'SaveAs' : 'f' , 
- \                'Save' : 'f' , 
- \                'Close' : 'f' , 
+ \    'property': {
+ \       'Name': {
+ \         'kind'; 'v',
+ \         'info': '',
+ \       },
+ \       'Path': {
+ \         'kind'; 'v',
+ \         'info': '',
+ \       },
+ \       'Worksheets': {
+ \         'kind'; 'o',
+ \         'info': '',
+ \         'name': 'Worksheets'
+ \       },
  \    },
- \  },
- \  'Workbooks': { 
- \    'create': '',
- \    'member': { 'Count' : 'v', 
- \                'Add' : 'f' , 
- \                'Open' : 'f' , 
- \    },
- \  },
- \  'Worksheet': { 
- \    'create': 'Dim',
- \    'member': { 'Name' : 'v', 
- \                'Range' : 'o' , 
- \                'Cells' : 'o' , 
- \                'Rows' : 'o' , 
- \                'Columns' : 'o' , 
- \                'ActiveCell' : 'o' , 
- \                'Paste' : 'f' , 
- \                'Delete' : 'f' , 
- \                'Move' : 'f' , 
- \                'Copy' : 'f' , 
- \    },
- \  },
- \  'Worksheets': { 
- \    'create': 'Dim',
- \    'member': { 'Counts' : 'v', 
- \                'Add' : 'f' , 
+ \    'method': {
+ \       'Delete': {
+ \         'kind'; 'f',
+ \         'info': '',
+ \       },
  \    },
  \  },
  \  'Range': { 
  \    'create': 'Dim',
- \    'member': { 'Value' : 'v', 
- \                'Rows' : 'v' , 
- \                'Columns' : 'v' , 
- \                'EntireRow' : 'v' , 
- \                'EntireColumn' : 'v' , 
- \                'Row' : 'v' , 
- \                'Column' : 'v' , 
- \                'Count' : 'v' , 
- \                'Offset' : 'v' , 
- \                'CurrentRegion' : 'v' , 
- \                'End' : 'v' , 
- \                'RowHeight' : 'v' , 
- \                'ColumnWidth' : 'v' , 
- \                'Formula' : 'v' , 
- \                'FormulaR1C1' : 'v' , 
- \                'Font' : 'o' , 
- \                'Interior' : 'o' , 
- \                'Select' : 'f' , 
- \                'Activate' : 'f' , 
- \                'Cut' : 'f' , 
- \                'Copy' : 'f' , 
- \                'PasteSpecial' : 'f' , 
- \                'Insert' : 'f' , 
- \                'Delete' : 'f' , 
- \                'AutoFill' : 'f' , 
- \                'Clear' : 'f' , 
- \                'ClearContents' : 'f' , 
- \                'ClearFormats' : 'f' , 
- \                'Sort' : 'f' , 
- \                'AutoFilter' : 'f' , 
+ \    'property': {
+ \       'Value': {
+ \         'kind'; 'v',
+ \         'info': '',
+ \       },
+ \       'End': {
+ \         'kind'; 'v',
+ \         'info': '',
+ \         'args': ['xlUp', 'xlDown', 'xltoRight', 'xlToLeft'],
+ \       },
+ \       'Rows': {
+ \         'kind'; 'o',
+ \         'info': '',
+ \         'property': ['Count', 'Height', 'AutoFit']
+ \       },
  \    },
- \  },
- \  'Application': { 
- \    'create': '',
- \    'member': { 'Selection' : 'v', 
- \                'ActiveCell' : 'v' , 
- \                'CutCopyMode' : 'v' , 
- \                'Statusbar' : 'v' , 
- \                'DisplayAlerts' : 'v' , 
- \                'WorksheetFunction' : 'o' , 
- \    },
- \  },
- \  'Rows': { 
- \    'create': '',
- \    'member': { 'Height' : 'f', 
- \                'AutoFit' : 'v' , 
- \    },
- \  },
- \  'Columns': { 
- \    'create': '',
- \    'member': { 'Width' : 'f', 
- \                'AutoFit' : 'v' , 
- \    },
- \  },
- \  'Font': { 
- \    'create': '',
- \    'member': { 'Name' : 'v', 
- \                'Size' : 'v' , 
- \                'Bold' : 'v' , 
- \                'Italic' : 'v' , 
- \                'Underline' : 'v' , 
- \                'ColorIndex' : 'v' , 
- \    },
- \  },
- \  'Interior': { 
- \    'create': '',
- \    'member': { 'Color' : 'v', 
- \                'ColorIndex' : 'v' , 
+ \    'method': {
+ \       'Clear': {
+ \         'kind'; 'f',
+ \         'info': '',
+ \       },
  \    },
  \  },
  \}
+"  let s:objects = {
+" \  'Workbook': { 
+" \    'create': 'Dim',
+" \    'member': { 'Name' : 'v', 
+" \                'Path' : 'v' , 
+" \                'Worksheets' : 'v' , 
+" \                'ActiveSheet' : 'v' , 
+" \                'Delete' : 'f' , 
+" \                'SaveAs' : 'f' , 
+" \                'Save' : 'f' , 
+" \                'Close' : 'f' , 
+" \    },
+" \  },
+" \  'Workbooks': { 
+" \    'create': '',
+" \    'member': { 'Count' : 'v', 
+" \                'Add' : 'f' , 
+" \                'Open' : 'f' , 
+" \    },
+" \  },
+" \  'Worksheet': { 
+" \    'create': 'Dim',
+" \    'member': { 'Name' : 'v', 
+" \                'Range' : 'o' , 
+" \                'Cells' : 'o' , 
+" \                'Rows' : 'o' , 
+" \                'Columns' : 'o' , 
+" \                'ActiveCell' : 'o' , 
+" \                'Paste' : 'f' , 
+" \                'Delete' : 'f' , 
+" \                'Move' : 'f' , 
+" \                'Copy' : 'f' , 
+" \    },
+" \  },
+" \  'Worksheets': { 
+" \    'create': 'Dim',
+" \    'member': { 'Counts' : 'v', 
+" \                'Add' : 'f' , 
+" \    },
+" \  },
+" \  'Range': { 
+" \    'create': 'Dim',
+" \    'member': { 'Value' : 'v', 
+" \                'Rows' : 'v' , 
+" \                'Columns' : 'v' , 
+" \                'EntireRow' : 'v' , 
+" \                'EntireColumn' : 'v' , 
+" \                'Row' : 'v' , 
+" \                'Column' : 'v' , 
+" \                'Count' : 'v' , 
+" \                'Offset' : 'v' , 
+" \                'CurrentRegion' : 'v' , 
+" \                'End' : 'v' , 
+" \                'RowHeight' : 'v' , 
+" \                'ColumnWidth' : 'v' , 
+" \                'Formula' : 'v' , 
+" \                'FormulaR1C1' : 'v' , 
+" \                'Font' : 'o' , 
+" \                'Interior' : 'o' , 
+" \                'Select' : 'f' , 
+" \                'Activate' : 'f' , 
+" \                'Cut' : 'f' , 
+" \                'Copy' : 'f' , 
+" \                'PasteSpecial' : 'f' , 
+" \                'Insert' : 'f' , 
+" \                'Delete' : 'f' , 
+" \                'AutoFill' : 'f' , 
+" \                'Clear' : 'f' , 
+" \                'ClearContents' : 'f' , 
+" \                'ClearFormats' : 'f' , 
+" \                'Sort' : 'f' , 
+" \                'AutoFilter' : 'f' , 
+" \    },
+" \  },
+" \  'Application': { 
+" \    'create': '',
+" \    'member': { 'Selection' : 'v', 
+" \                'ActiveCell' : 'v' , 
+" \                'CutCopyMode' : 'v' , 
+" \                'Statusbar' : 'v' , 
+" \                'DisplayAlerts' : 'v' , 
+" \                'WorksheetFunction' : 'o' , 
+" \    },
+" \  },
+" \  'Rows': { 
+" \    'create': '',
+" \    'member': { 'Height' : 'f', 
+" \                'AutoFit' : 'v' , 
+" \    },
+" \  },
+" \  'Columns': { 
+" \    'create': '',
+" \    'member': { 'Width' : 'f', 
+" \                'AutoFit' : 'v' , 
+" \    },
+" \  },
+" \  'Font': { 
+" \    'create': '',
+" \    'member': { 'Name' : 'v', 
+" \                'Size' : 'v' , 
+" \                'Bold' : 'v' , 
+" \                'Italic' : 'v' , 
+" \                'Underline' : 'v' , 
+" \                'ColorIndex' : 'v' , 
+" \    },
+" \  },
+" \  'Interior': { 
+" \    'create': '',
+" \    'member': { 'Color' : 'v', 
+" \                'ColorIndex' : 'v' , 
+" \    },
+" \  },
+" \}
   let s:variables = {}
   let s:line = 0
   let s:temp_objects = {}
@@ -149,17 +200,39 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   endif
   for word1 in keys(s:variables)
     if a:cur_text =~ word1
-      for word in keys(s:objects[s:variables[word1]['type']]['member'])
-        "echo "add " . word1 . "." . word . " to s:keywords"
-        call add(s:keywords, { 'word' : word1.".".word,
+      for word in keys(s:objects[s:variables[word1]['type']]['property'])
+        call add(s:keywords, { 
+         \ 'word' : word1.'.'.word,
          \ 'abbr': word, 
          \ 'menu': '[excel_vba_complete]', 
-         \ 'kind' : s:objects[s:variables[word1]['type']]['member'][word]})
+         \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
+         \ })
+      endfor
+      for word in keys(s:objects[s:variables[word1]['type']]['method'])
+        call add(s:keywords, { 
+         \ 'word' : word1.'.'.word,
+         \ 'abbr': word, 
+         \ 'menu': '[excel_vba_complete]', 
+         \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
+         \ })
       endfor
       return match(a:cur_text, word1.".")
       break
     endif
   endfor
+  "for word1 in keys(s:variables)
+  "  if a:cur_text =~ word1
+  "    for word in keys(s:objects[s:variables[word1]['type']]['member'])
+  "      "echo "add " . word1 . "." . word . " to s:keywords"
+  "      call add(s:keywords, { 'word' : word1.".".word,
+  "       \ 'abbr': word, 
+  "       \ 'menu': '[excel_vba_complete]', 
+  "       \ 'kind' : s:objects[s:variables[word1]['type']]['member'][word]})
+  "    endfor
+  "    return match(a:cur_text, word1.".")
+  "    break
+  "  endif
+  "endfor
 endfunction"}}}
 
 function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
