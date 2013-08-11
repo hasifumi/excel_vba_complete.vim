@@ -484,31 +484,31 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   if &modified
     call excel_vba_complete#get_all_variables()
   endif
-  call add(s:keywords, {'word': a:cur_text, 'menu': '[excel_vba_complete]'})
-  "for word1 in keys(s:variables)
-  "  if a:cur_text == word1
-  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
-  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
-  "    "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
-  "    "  call add(s:keywords, { 
-  "    "   \ 'word' : word1.'.'.word,
-  "    "   \ 'abbr': word, 
-  "    "   \ 'menu': '[excel_vba_complete]', 
-  "    "   \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
-  "    "   \ })
-  "    "endfor
-  "    "for word in keys(s:objects[s:variables[word1]['type']]['method'])
-  "    "  call add(s:keywords, { 
-  "    "   \ 'word' : word1.'.'.word,
-  "    "   \ 'abbr': word, 
-  "    "   \ 'menu': '[excel_vba_complete]', 
-  "    "   \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
-  "    "   \ })
-  "    "endfor"}}}
-  "    return match(a:cur_text, word1.".")
-  "    break
-  "  endif
-  "endfor
+  "call add(s:keywords, {'word': a:cur_text, 'menu': '[excel_vba_complete]'})
+  for word1 in keys(s:variables)
+    if a:cur_text == word1
+      call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
+      call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
+      "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
+      "  call add(s:keywords, { 
+      "   \ 'word' : word1.'.'.word,
+      "   \ 'abbr': word, 
+      "   \ 'menu': '[excel_vba_complete]', 
+      "   \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
+      "   \ })
+      "endfor
+      "for word in keys(s:objects[s:variables[word1]['type']]['method'])
+      "  call add(s:keywords, { 
+      "   \ 'word' : word1.'.'.word,
+      "   \ 'abbr': word, 
+      "   \ 'menu': '[excel_vba_complete]', 
+      "   \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
+      "   \ })
+      "endfor"}}}
+      return match(a:cur_text, word1.".")
+      break
+    endif
+  endfor
   "for word1 in keys(s:variables)"{{{
   "  if a:cur_text =~ word1
   "    for word in keys(s:objects[s:variables[word1]['type']]['member'])
