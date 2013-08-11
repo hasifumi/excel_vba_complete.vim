@@ -1,4 +1,5 @@
-" vim:set foldmethod=marker :
+let s:save_cpo = &cpo
+set cpo&vim
 
 function! neocomplcache#sources#excel_vba_complete#define()"{{{
         return s:source
@@ -6,7 +7,7 @@ endfunction"}}}
 
 let s:source = {
   \ 'name' : 'excel_vba_complete',
-  \ 'kind' : 'ftplugin',
+  \ 'kind' : 'manual',
   \ 'filetypes' : { 'vb': 1, 'basic': 1  }
   \ } "DON'T FOLDING! it will occure an error.
 
@@ -483,31 +484,32 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   if &modified
     call excel_vba_complete#get_all_variables()
   endif
-  for word1 in keys(s:variables)
-    if a:cur_text == word1
-      call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
-      call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
-      "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
-      "  call add(s:keywords, { 
-      "   \ 'word' : word1.'.'.word,
-      "   \ 'abbr': word, 
-      "   \ 'menu': '[excel_vba_complete]', 
-      "   \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
-      "   \ })
-      "endfor
-      "for word in keys(s:objects[s:variables[word1]['type']]['method'])
-      "  call add(s:keywords, { 
-      "   \ 'word' : word1.'.'.word,
-      "   \ 'abbr': word, 
-      "   \ 'menu': '[excel_vba_complete]', 
-      "   \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
-      "   \ })
-      "endfor"}}}
-      return match(a:cur_text, word1.".")
-      break
-    endif
-  endfor
+  call add(s:keywords, {'word': a:cur_text, 'menu': '[excel_vba_complete]'})
   "for word1 in keys(s:variables)
+  "  if a:cur_text == word1
+  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
+  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
+  "    "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
+  "    "  call add(s:keywords, { 
+  "    "   \ 'word' : word1.'.'.word,
+  "    "   \ 'abbr': word, 
+  "    "   \ 'menu': '[excel_vba_complete]', 
+  "    "   \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
+  "    "   \ })
+  "    "endfor
+  "    "for word in keys(s:objects[s:variables[word1]['type']]['method'])
+  "    "  call add(s:keywords, { 
+  "    "   \ 'word' : word1.'.'.word,
+  "    "   \ 'abbr': word, 
+  "    "   \ 'menu': '[excel_vba_complete]', 
+  "    "   \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
+  "    "   \ })
+  "    "endfor"}}}
+  "    return match(a:cur_text, word1.".")
+  "    break
+  "  endif
+  "endfor
+  "for word1 in keys(s:variables)"{{{
   "  if a:cur_text =~ word1
   "    for word in keys(s:objects[s:variables[word1]['type']]['member'])
   "      "echo "add " . word1 . "." . word . " to s:keywords"
@@ -519,7 +521,7 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   "    return match(a:cur_text, word1.".")
   "    break
   "  endif
-  "endfor
+  "endfor"}}}
 endfunction"}}}
 
 function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
@@ -669,3 +671,8 @@ endfunction"}}}
 "  endif
 "  return res
 "endfunction"}}}
+
+let &cpo = s:save_cpo
+unlet s:save_cpo
+
+" vim: foldmethod=marker
