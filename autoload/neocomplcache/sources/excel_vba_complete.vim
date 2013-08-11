@@ -29,9 +29,112 @@ function! s:source.initialize()"{{{
  \         'info': '',
  \         'name': 'Worksheets'
  \       },
+ \       'ActiveSheet': {
+ \         'kind': 'o',
+ \         'info': '',
+ \         'name': 'Worksheets'
+ \       },
  \    },
  \    'method': {
  \       'Delete': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Save': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'SaveAs': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Close': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \    },
+ \  },
+ \  'Workbooks': { 
+ \    'create': 'Dim',
+ \    'property': {
+ \       'Count': {
+ \         'kind': 'v',
+ \         'info': '',
+ \       },
+ \    },
+ \    'method': {
+ \       'Add': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Open': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \    },
+ \  },
+ \  'Worksheet': { 
+ \    'create': 'Dim',
+ \    'property': {
+ \       'Name': {
+ \         'kind': 'v',
+ \         'info': '',
+ \       },
+ \       'Range': {
+ \         'kind': 'o',
+ \         'info': '',
+ \         'name': 'Range'
+ \       },
+ \       'Cells': {
+ \         'kind': 'o',
+ \         'info': '',
+ \         'name': 'Range'
+ \       },
+ \       'ActiveCell': {
+ \         'kind': 'o',
+ \         'info': '',
+ \         'name': 'Range'
+ \       },
+ \       'Rows': {
+ \         'kind': 'v',
+ \         'info': '',
+ \         'property': ['Count', 'Height', 'AutoFit()'],
+ \       },
+ \       'Columns': {
+ \         'kind': 'v',
+ \         'info': '',
+ \         'property': ['Count', 'Width', 'AutoFit()'],
+ \       },
+ \    },
+ \    'method': {
+ \       'Paste': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Delete': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Move': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \       'Copy': {
+ \         'kind': 'f',
+ \         'info': '',
+ \       },
+ \    },
+ \  },
+ \  'Worksheets': { 
+ \    'create': 'Dim',
+ \    'property': {
+ \       'Count': {
+ \         'kind': 'v',
+ \         'info': '',
+ \       },
+ \    },
+ \    'method': {
+ \       'Add': {
  \         'kind': 'f',
  \         'info': '',
  \       },
@@ -52,7 +155,12 @@ function! s:source.initialize()"{{{
  \       'Rows': {
  \         'kind': 'o',
  \         'info': '',
- \         'property': ['Count', 'Height', 'AutoFit']
+ \         'property': ['Count', 'Height', 'AutoFit()']
+ \       },
+ \       'Columns': {
+ \         'kind': 'o',
+ \         'info': '',
+ \         'property': ['Count', 'Width', 'AutoFit()']
  \       },
  \    },
  \    'method': {
@@ -64,7 +172,7 @@ function! s:source.initialize()"{{{
  \  },
  \}
 "  let s:objects = {"{{{
-" \  'Workbook': { 
+" \  'Workbook': { "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Name' : 'v', 
 " \                'Path' : 'v' , 
@@ -75,15 +183,15 @@ function! s:source.initialize()"{{{
 " \                'Save' : 'f' , 
 " \                'Close' : 'f' , 
 " \    },
-" \  },
-" \  'Workbooks': { 
+" \  },"}}}
+" \  'Workbooks': { "{{{
 " \    'create': '',
 " \    'member': { 'Count' : 'v', 
 " \                'Add' : 'f' , 
 " \                'Open' : 'f' , 
 " \    },
-" \  },
-" \  'Worksheet': { 
+" \  },"}}}
+" \  'Worksheet': { "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Name' : 'v', 
 " \                'Range' : 'o' , 
@@ -96,13 +204,13 @@ function! s:source.initialize()"{{{
 " \                'Move' : 'f' , 
 " \                'Copy' : 'f' , 
 " \    },
-" \  },
-" \  'Worksheets': { 
+" \  },"}}}
+" \  'Worksheets': { "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Counts' : 'v', 
 " \                'Add' : 'f' , 
 " \    },
-" \  },
+" \  },"}}}
 " \  'Range': { 
 " \    'create': 'Dim',
 " \    'member': { 'Value' : 'v', 
@@ -201,7 +309,7 @@ function! s:source.get_keyword_pos(cur_text)"{{{
     call excel_vba_complete#get_all_variables()
   endif
   for word1 in keys(s:variables)
-    if a:cur_text =~ word1
+    if a:cur_text == word1
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
       "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
