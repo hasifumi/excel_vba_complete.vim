@@ -1,3 +1,5 @@
+" vim:set foldmethod=marker :
+
 function! neocomplcache#sources#excel_vba_complete#define()"{{{
         return s:source
 endfunction"}}}
@@ -15,22 +17,22 @@ function! s:source.initialize()"{{{
  \    'create': 'Dim',
  \    'property': {
  \       'Name': {
- \         'kind'; 'v',
+ \         'kind': 'v',
  \         'info': '',
  \       },
  \       'Path': {
- \         'kind'; 'v',
+ \         'kind': 'v',
  \         'info': '',
  \       },
  \       'Worksheets': {
- \         'kind'; 'o',
+ \         'kind': 'o',
  \         'info': '',
  \         'name': 'Worksheets'
  \       },
  \    },
  \    'method': {
  \       'Delete': {
- \         'kind'; 'f',
+ \         'kind': 'f',
  \         'info': '',
  \       },
  \    },
@@ -39,29 +41,29 @@ function! s:source.initialize()"{{{
  \    'create': 'Dim',
  \    'property': {
  \       'Value': {
- \         'kind'; 'v',
+ \         'kind': 'v',
  \         'info': '',
  \       },
  \       'End': {
- \         'kind'; 'v',
+ \         'kind': 'v',
  \         'info': '',
  \         'args': ['xlUp', 'xlDown', 'xltoRight', 'xlToLeft'],
  \       },
  \       'Rows': {
- \         'kind'; 'o',
+ \         'kind': 'o',
  \         'info': '',
  \         'property': ['Count', 'Height', 'AutoFit']
  \       },
  \    },
  \    'method': {
  \       'Clear': {
- \         'kind'; 'f',
+ \         'kind': 'f',
  \         'info': '',
  \       },
  \    },
  \  },
  \}
-"  let s:objects = {
+"  let s:objects = {"{{{
 " \  'Workbook': { 
 " \    'create': 'Dim',
 " \    'member': { 'Name' : 'v', 
@@ -173,7 +175,7 @@ function! s:source.initialize()"{{{
 " \                'ColorIndex' : 'v' , 
 " \    },
 " \  },
-" \}
+" \}"}}}
   let s:variables = {}
   let s:line = 0
   let s:temp_objects = {}
@@ -200,22 +202,24 @@ function! s:source.get_keyword_pos(cur_text)"{{{
   endif
   for word1 in keys(s:variables)
     if a:cur_text =~ word1
-      for word in keys(s:objects[s:variables[word1]['type']]['property'])
-        call add(s:keywords, { 
-         \ 'word' : word1.'.'.word,
-         \ 'abbr': word, 
-         \ 'menu': '[excel_vba_complete]', 
-         \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
-         \ })
-      endfor
-      for word in keys(s:objects[s:variables[word1]['type']]['method'])
-        call add(s:keywords, { 
-         \ 'word' : word1.'.'.word,
-         \ 'abbr': word, 
-         \ 'menu': '[excel_vba_complete]', 
-         \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
-         \ })
-      endfor
+      call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
+      call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
+      "for word in keys(s:objects[s:variables[word1]['type']]['property'])"{{{
+      "  call add(s:keywords, { 
+      "   \ 'word' : word1.'.'.word,
+      "   \ 'abbr': word, 
+      "   \ 'menu': '[excel_vba_complete]', 
+      "   \ 'kind' : s:objects[s:variables[word1]['type']]['property'][word]['kind']
+      "   \ })
+      "endfor
+      "for word in keys(s:objects[s:variables[word1]['type']]['method'])
+      "  call add(s:keywords, { 
+      "   \ 'word' : word1.'.'.word,
+      "   \ 'abbr': word, 
+      "   \ 'menu': '[excel_vba_complete]', 
+      "   \ 'kind' : s:objects[s:variables[word1]['type']]['method'][word]['kind']
+      "   \ })
+      "endfor"}}}
       return match(a:cur_text, word1.".")
       break
     endif
@@ -237,6 +241,17 @@ endfunction"}}}
 
 function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
   return neocomplcache#keyword_filter(copy(s:keywords), a:cur_keyword_str)
+endfunction"}}}
+
+function! excel_vba_complete#gather_keywords(dict, word, flg)"{{{
+  for key in keys(s:objects[s:variables[a:word]['type']][a:flg])
+    call add(a:dict, { 
+     \ 'word' : a:word . '.' . key,
+     \ 'abbr': key, 
+     \ 'menu': '[excel_vba_complete]', 
+     \ 'kind' : s:objects[s:variables[a:word]['type']][a:flg][key]['kind']
+     \ })
+  endfor
 endfunction"}}}
 
 function! excel_vba_complete#get_variables(line)"{{{
