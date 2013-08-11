@@ -171,6 +171,179 @@ function! s:source.initialize()"{{{
  \    },
  \  },
  \}
+  let s:variables = {}
+  let s:line = 0
+  let s:temp_objects = {}
+endfunction"}}}
+
+function! excel_vba_complete#initialize_s_objects()"{{{
+  let l:objects = {}
+  let l:workbook = {}
+  let l:workbook['create'] = 'Dim'
+  let l:workbook['property'] = {"{{{
+ \  'Name': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Path': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Worksheets': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'name': 'Worksheets'
+ \  },
+ \  'ActiveSheet': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'name': 'Worksheets'
+ \  },
+ \}"}}}
+  let l:workbook['method'] = {"{{{
+ \   'Delete': {
+ \     'kind': 'f',
+ \     'info': '',
+ \   },
+ \   'Save': {
+ \     'kind': 'f',
+ \     'info': '',
+ \   },
+ \   'SaveAs': {
+ \     'kind': 'f',
+ \     'info': '',
+ \   },
+ \   'Close': {
+ \     'kind': 'f',
+ \     'info': '',
+ \   },
+ \}"}}}
+  let l:objects['Workbook'] = l:workbook
+
+  let l:workbooks = {}
+  let l:workbooks['create'] = 'Dim' 
+  let l:workbooks['property'] = {"{{{
+ \  'Count': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:workbooks['method'] = {"{{{
+ \  'Add': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Open': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:objects['Workbooks'] = l:workbooks
+
+  let l:worksheet = {}
+  let l:worksheet['create'] = 'Dim' 
+  let l:worksheet['property'] = {"{{{
+ \  'Name': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Range': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'name': 'Range'
+ \  },
+ \  'Cells': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'name': 'Range'
+ \  },
+ \  'ActiveCell': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'name': 'Range'
+ \  },
+ \  'Rows': {
+ \    'kind': 'v',
+ \    'info': '',
+ \    'property': ['Count', 'Height', 'AutoFit()'],
+ \  },
+ \  'Columns': {
+ \    'kind': 'v',
+ \    'info': '',
+ \    'property': ['Count', 'Width', 'AutoFit()'],
+ \  },
+ \}"}}}
+  let l:worksheet['method'] = {"{{{
+ \  'Paste': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Delete': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Move': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Copy': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:objects['Worksheet'] = l:worksheet
+
+  let l:worksheets = {}
+  let l:worksheets['create'] = 'Dim' 
+  let l:worksheets['property'] = {"{{{
+ \  'Count': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:worksheets['method'] = {"{{{
+ \  'Add': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:objects['Worksheets'] = l:worksheets
+
+  let l:range = {}
+  let l:range['create'] = 'Dim' 
+  let l:range['property'] = {"{{{
+ \  'Value': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'End': {
+ \    'kind': 'v',
+ \    'info': '',
+ \    'args': ['xlUp', 'xlDown', 'xltoRight', 'xlToLeft'],
+ \  },
+ \  'Rows': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Count', 'Height', 'AutoFit()']
+ \  },
+ \  'Columns': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Count', 'Width', 'AutoFit()']
+ \  },
+ \}"}}}
+  let l:range['method'] = {"{{{
+ \  'Clear': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \}"}}}
+  let l:objects['Range'] = l:range
+
+  if l:objects == s:objects
+    echo "l:objects equals s:objects"
+  endif
+
 "  let s:objects = {"{{{
 " \  'Workbook': { "{{{
 " \    'create': 'Dim',
@@ -211,7 +384,7 @@ function! s:source.initialize()"{{{
 " \                'Add' : 'f' , 
 " \    },
 " \  },"}}}
-" \  'Range': { 
+" \  'Range': { "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Value' : 'v', 
 " \                'Rows' : 'v' , 
@@ -244,8 +417,8 @@ function! s:source.initialize()"{{{
 " \                'Sort' : 'f' , 
 " \                'AutoFilter' : 'f' , 
 " \    },
-" \  },
-" \  'Application': { 
+" \  },"}}}
+" \  'Application': { "{{{
 " \    'create': '',
 " \    'member': { 'Selection' : 'v', 
 " \                'ActiveCell' : 'v' , 
@@ -254,20 +427,20 @@ function! s:source.initialize()"{{{
 " \                'DisplayAlerts' : 'v' , 
 " \                'WorksheetFunction' : 'o' , 
 " \    },
-" \  },
-" \  'Rows': { 
+" \  },"}}}
+" \  'Rows': { "{{{
 " \    'create': '',
 " \    'member': { 'Height' : 'f', 
 " \                'AutoFit' : 'v' , 
 " \    },
-" \  },
-" \  'Columns': { 
+" \  },"}}}
+" \  'Columns': { "{{{
 " \    'create': '',
 " \    'member': { 'Width' : 'f', 
 " \                'AutoFit' : 'v' , 
 " \    },
-" \  },
-" \  'Font': { 
+" \  },"}}}
+" \  'Font': { "{{{
 " \    'create': '',
 " \    'member': { 'Name' : 'v', 
 " \                'Size' : 'v' , 
@@ -276,17 +449,14 @@ function! s:source.initialize()"{{{
 " \                'Underline' : 'v' , 
 " \                'ColorIndex' : 'v' , 
 " \    },
-" \  },
-" \  'Interior': { 
+" \  },"}}}
+" \  'Interior': { "{{{"{{{
 " \    'create': '',
 " \    'member': { 'Color' : 'v', 
 " \                'ColorIndex' : 'v' , 
 " \    },
-" \  },
+" \  },"}}}"}}}
 " \}"}}}
-  let s:variables = {}
-  let s:line = 0
-  let s:temp_objects = {}
 endfunction"}}}
 
 function! s:source.finalize()"{{{
