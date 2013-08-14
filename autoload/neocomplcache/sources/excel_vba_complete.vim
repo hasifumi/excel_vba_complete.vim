@@ -482,6 +482,7 @@ function! s:source.get_keyword_pos(cur_text)"{{{
     return -1
   endif
   if &modified
+    let s:keywords = []
     call excel_vba_complete#get_all_variables()
   endif
   for word1 in keys(s:variables)
