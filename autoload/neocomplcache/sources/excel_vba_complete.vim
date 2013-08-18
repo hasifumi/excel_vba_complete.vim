@@ -336,61 +336,136 @@ function! excel_vba_complete#initialize_s_objects() "{{{
  \    'info': '',
  \    'property': ['Count', 'Width', 'AutoFit()']
  \  },
+ \  'EntireRow': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Count', 'Height', 'AutoFit()']
+ \  },
+ \  'EntireColumn': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Count', 'Width', 'AutoFit()']
+ \  },
+ \  'Row': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Height', 'AutoFit()']
+ \  },
+ \  'Colums': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Width', 'AutoFit()']
+ \  },
+ \  'Count': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Offset': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'CurrentRegion': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Formula': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'FormulaR1C1': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Font': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Color', 'Size', 'ColorIndex']
+ \  },
+ \  'Interior': {
+ \    'kind': 'o',
+ \    'info': '',
+ \    'property': ['Color', 'ColorIndex']
+ \  },
  \}
   let l:range['method'] = {
  \  'Clear': {
  \    'kind': 'f',
  \    'info': '',
  \  },
+ \  'Select': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Cut': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Copy': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'PasteSpecial': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Insert': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Delete': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'AutoFill': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'Sort': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
+ \  'AutoFit': {
+ \    'kind': 'f',
+ \    'info': '',
+ \  },
  \}
   let l:objects['Range'] = l:range "}}}
 
-  "if l:objects == s:objects
-  "  echo "l:objects equals s:objects"
-  "endif
+  let l:application = {} "{{{
+  let l:application['create'] = 'Dim' 
+  let l:application['property'] = {
+ \  'Selection': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'ActiveCell': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'CutCopyMode': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'Statusbar': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'DisplayAlerts': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \  'WorksheetFunction': {
+ \    'kind': 'v',
+ \    'info': '',
+ \  },
+ \}
+  let l:application['method'] = {
+ \}
+  let l:objects['Application'] = l:application "}}}
 
   let s:objects = l:objects
 
 "  let s:objects = { "{{{
-" \  'Workbook': {  "{{{
-" \    'create': 'Dim',
-" \    'member': { 'Name' : 'v', 
-" \                'Path' : 'v' , 
-" \                'Worksheets' : 'v' , 
-" \                'ActiveSheet' : 'v' , 
-" \                'Delete' : 'f' , 
-" \                'SaveAs' : 'f' , 
-" \                'Save' : 'f' , 
-" \                'Close' : 'f' , 
-" \    },
-" \  }, "}}}
-" \  'Workbooks': {  "{{{
-" \    'create': '',
-" \    'member': { 'Count' : 'v', 
-" \                'Add' : 'f' , 
-" \                'Open' : 'f' , 
-" \    },
-" \  }, "}}}
-" \  'Worksheet': {  "{{{
-" \    'create': 'Dim',
-" \    'member': { 'Name' : 'v', 
-" \                'Range' : 'o' , 
-" \                'Cells' : 'o' , 
-" \                'Rows' : 'o' , 
-" \                'Columns' : 'o' , 
-" \                'ActiveCell' : 'o' , 
-" \                'Paste' : 'f' , 
-" \                'Delete' : 'f' , 
-" \                'Move' : 'f' , 
-" \                'Copy' : 'f' , 
-" \    },
-" \  }, "}}}
-" \  'Worksheets': {  "{{{
-" \    'create': 'Dim',
-" \    'member': { 'Counts' : 'v', 
-" \                'Add' : 'f' , 
-" \    },
-" \  }, "}}}
 " \  'Range': {  "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Value' : 'v', 
