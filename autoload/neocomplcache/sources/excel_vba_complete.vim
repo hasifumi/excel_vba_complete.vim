@@ -493,6 +493,7 @@ function! s:source.get_keyword_pos(cur_text) "{{{
   let s:start = col('.') - 2
   let s:end = s:start
   let orig_start = s:start
+  let first_dot = 0
 
   while s:start >= 0
     "if line[s:start] =~ '\.'
@@ -500,6 +501,9 @@ function! s:source.get_keyword_pos(cur_text) "{{{
       if kkako == 0
         let dot += 1
         let s:end = s:start - 1
+        if dot == 1
+          let first_dot = s:end
+        endif
       endif
       if dot >= 2
         break
@@ -515,8 +519,6 @@ function! s:source.get_keyword_pos(cur_text) "{{{
       endif
     endif
     if line[s:start] =~ '\s'
-    "if line[s:start] =~ '[:blank:]'
-    "if line[s:start] =~ '[:[:blank:]]' 
       if kkako == 0
         break
       endif
@@ -528,19 +530,35 @@ function! s:source.get_keyword_pos(cur_text) "{{{
   let g:temp['s_start'] = s:start
   let g:temp['s_end'] = s:end
   let g:temp['orig_start'] = orig_start
+  let g:temp['first_dot'] = first_dot
   let g:temp['trigger'] = strpart(line, (s:start + 1), (s:end - s:start))
-  let g:temp['word'] = strpart(line, (s:start + 1), (orig_start - s:start))
-  "return s:start + 1
+  let g:temp['word'] = strpart(line, (s:start + 1), (first_dot - s:start))
+  let keywords = []
+  let trigger = strpart(line, (s:start + 1), (s:end - s:start))
+  let word = strpart(line, (s:start + 1), (first_dot - s:start))
+  call excel_vba_complete#gather_keywords_from_variables(keywords, trigger, word, 'property')
+  if keywords == []
+    call excel_vba_complete#gather_keywords_from_objects(keywords, trigger, word, 'method')
+  endif
+  let g:temp['keywords'] = deepcopy(keywords)
 
-  for word1 in keys(s:variables)
-    if a:cur_text =~ word1
-      call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
-      call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
-      let g:temp['match'] = match(a:cur_text, word1.'.')
-      return match(a:cur_text, word1.'.')
-      break
-    endif
-  endfor
+  let s:keywords = deepcopy(keywords)
+  return s:start + 1
+
+  "for word1 in keys(s:variables)
+  "  if a:cur_text =~ word1
+  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
+  "    call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
+  "    let g:temp['match'] = match(a:cur_text, word1.'.')
+  "    if s:keywords == keywords
+  "      let g:temp['compare'] = "Match!"
+  "    else
+  "      let g:temp['compare'] = "Unmatch!"
+  "    endif
+  "    return match(a:cur_text, word1.'.')
+  "    break
+  "  endif
+  "endfor
 
 endfunction "}}}
 
@@ -560,6 +578,34 @@ function! excel_vba_complete#gather_keywords(dict, word, flg) "{{{
      \ 'kind' : s:objects[s:variables[a:word]['type']][a:flg][key]['kind']
      \ })
   endfor
+endfunction "}}}
+
+function! excel_vba_complete#gather_keywords_from_variables(dict, trigger, word, flg) "{{{
+  if has_key(s:variables, a:trigger)
+    if has_key(s:objects, s:variables[a:trigger]['type'])
+      for key in keys(s:objects[s:variables[a:trigger]['type']][a:flg])
+        call add(a:dict, { 
+         \ 'word' : a:word . '.' . key,
+         \ 'abbr': key, 
+         \ 'menu': '[excel_vba_complete]', 
+         \ 'kind' : s:objects[s:variables[a:trigger]['type']][a:flg][key]['kind']
+         \ })
+      endfor
+    endif
+  endif
+endfunction "}}}
+
+function! excel_vba_complete#gather_keywords_from_objects(dict, trigger, word, flg) "{{{
+  if has_key(s:objects, a:trigger)
+    for key in keys(s:objects[a:trigger][a:flg])
+      call add(a:dict, { 
+       \ 'word' : a:word . '.' . key,
+       \ 'abbr': key, 
+       \ 'menu': '[excel_vba_complete]', 
+       \ 'kind' : s:objects[a:trigger][a:flg][key]['kind']
+       \ })
+    endfor
+  endif
 endfunction "}}}
 
 function! excel_vba_complete#get_variables(line) "{{{

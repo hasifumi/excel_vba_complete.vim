@@ -19,4 +19,9 @@ EE.Columns
   EE.  DDDD.
 
 
-
+  FFF.
+  Workbook.Close
+  Worksheet.
+  Range(.Cells(1,1), .Cells(2,2)).
+  Cells()
+  Workbooks("Book1").
