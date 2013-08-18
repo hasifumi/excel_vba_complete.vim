@@ -1,9 +1,9 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-function! neocomplcache#sources#excel_vba_complete#define()"{{{
+function! neocomplcache#sources#excel_vba_complete#define() "{{{
         return s:source
-endfunction"}}}
+endfunction "}}}
 
 let s:source = {
   \ 'name' : 'excel_vba_complete',
@@ -11,17 +11,18 @@ let s:source = {
   \ 'filetypes' : { 'vb': 1, 'basic': 1  }
   \ } "DON'T FOLDING! it will occure an error.
 
-function! s:source.initialize()"{{{
+function! s:source.initialize() "{{{
   let s:keywords = []
   let s:objects = {}
   call excel_vba_complete#initialize_s_objects()
   let s:variables = {}
   let s:line = 0
   let s:temp_objects = {}
-endfunction"}}}
+  let g:temp = {}  " for Debug
+endfunction "}}}
 
-function! excel_vba_complete#initialize_s_objects()"{{{
-"  let s:objects = {"{{{
+function! excel_vba_complete#initialize_s_objects() "{{{
+"  let s:objects = { "{{{
 " \  'Workbook': { 
 " \    'create': 'Dim',
 " \    'property': {
@@ -179,10 +180,10 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \       },
 " \    },
 " \  },
-" \}"}}}
+" \} "}}}
   let l:objects = {}
 
-  let l:workbook = {}"{{{
+  let l:workbook = {} "{{{
   let l:workbook['create'] = 'Dim'
   let l:workbook['property'] = {
  \  'Name': {
@@ -222,9 +223,9 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \     'info': '',
  \   },
  \}
-  let l:objects['Workbook'] = l:workbook"}}}
+  let l:objects['Workbook'] = l:workbook "}}}
 
-  let l:workbooks = {}"{{{
+  let l:workbooks = {} "{{{
   let l:workbooks['create'] = 'Dim' 
   let l:workbooks['property'] = {
  \  'Count': {
@@ -242,9 +243,9 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \  },
  \}
-  let l:objects['Workbooks'] = l:workbooks"}}}
+  let l:objects['Workbooks'] = l:workbooks "}}}
 
-  let l:worksheet = {}"{{{
+  let l:worksheet = {} "{{{
   let l:worksheet['create'] = 'Dim' 
   let l:worksheet['property'] = {
  \  'Name': {
@@ -295,9 +296,9 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \  },
  \}
-  let l:objects['Worksheet'] = l:worksheet"}}}
+  let l:objects['Worksheet'] = l:worksheet "}}}
 
-  let l:worksheets = {}"{{{
+  let l:worksheets = {} "{{{
   let l:worksheets['create'] = 'Dim' 
   let l:worksheets['property'] = {
  \  'Count': {
@@ -311,9 +312,9 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \  },
  \}
-  let l:objects['Worksheets'] = l:worksheets"}}}
+  let l:objects['Worksheets'] = l:worksheets "}}}
 
-  let l:range = {}"{{{
+  let l:range = {} "{{{
   let l:range['create'] = 'Dim' 
   let l:range['property'] = {
  \  'Value': {
@@ -342,7 +343,7 @@ function! excel_vba_complete#initialize_s_objects()"{{{
  \    'info': '',
  \  },
  \}
-  let l:objects['Range'] = l:range"}}}
+  let l:objects['Range'] = l:range "}}}
 
   "if l:objects == s:objects
   "  echo "l:objects equals s:objects"
@@ -350,8 +351,8 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 
   let s:objects = l:objects
 
-"  let s:objects = {"{{{
-" \  'Workbook': { "{{{
+"  let s:objects = { "{{{
+" \  'Workbook': {  "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Name' : 'v', 
 " \                'Path' : 'v' , 
@@ -362,15 +363,15 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \                'Save' : 'f' , 
 " \                'Close' : 'f' , 
 " \    },
-" \  },"}}}
-" \  'Workbooks': { "{{{
+" \  }, "}}}
+" \  'Workbooks': {  "{{{
 " \    'create': '',
 " \    'member': { 'Count' : 'v', 
 " \                'Add' : 'f' , 
 " \                'Open' : 'f' , 
 " \    },
-" \  },"}}}
-" \  'Worksheet': { "{{{
+" \  }, "}}}
+" \  'Worksheet': {  "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Name' : 'v', 
 " \                'Range' : 'o' , 
@@ -383,14 +384,14 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \                'Move' : 'f' , 
 " \                'Copy' : 'f' , 
 " \    },
-" \  },"}}}
-" \  'Worksheets': { "{{{
+" \  }, "}}}
+" \  'Worksheets': {  "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Counts' : 'v', 
 " \                'Add' : 'f' , 
 " \    },
-" \  },"}}}
-" \  'Range': { "{{{
+" \  }, "}}}
+" \  'Range': {  "{{{
 " \    'create': 'Dim',
 " \    'member': { 'Value' : 'v', 
 " \                'Rows' : 'v' , 
@@ -423,8 +424,8 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \                'Sort' : 'f' , 
 " \                'AutoFilter' : 'f' , 
 " \    },
-" \  },"}}}
-" \  'Application': { "{{{
+" \  }, "}}}
+" \  'Application': {  "{{{
 " \    'create': '',
 " \    'member': { 'Selection' : 'v', 
 " \                'ActiveCell' : 'v' , 
@@ -433,20 +434,20 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \                'DisplayAlerts' : 'v' , 
 " \                'WorksheetFunction' : 'o' , 
 " \    },
-" \  },"}}}
-" \  'Rows': { "{{{
+" \  }, "}}}
+" \  'Rows': {  "{{{
 " \    'create': '',
 " \    'member': { 'Height' : 'f', 
 " \                'AutoFit' : 'v' , 
 " \    },
-" \  },"}}}
-" \  'Columns': { "{{{
+" \  }, "}}}
+" \  'Columns': {  "{{{
 " \    'create': '',
 " \    'member': { 'Width' : 'f', 
 " \                'AutoFit' : 'v' , 
 " \    },
-" \  },"}}}
-" \  'Font': { "{{{
+" \  }, "}}}
+" \  'Font': {  "{{{
 " \    'create': '',
 " \    'member': { 'Name' : 'v', 
 " \                'Size' : 'v' , 
@@ -455,29 +456,29 @@ function! excel_vba_complete#initialize_s_objects()"{{{
 " \                'Underline' : 'v' , 
 " \                'ColorIndex' : 'v' , 
 " \    },
-" \  },"}}}
-" \  'Interior': { "{{{"{{{
+" \  }, "}}}
+" \  'Interior': {  "{{{ "{{{
 " \    'create': '',
 " \    'member': { 'Color' : 'v', 
 " \                'ColorIndex' : 'v' , 
 " \    },
-" \  },"}}}"}}}
-" \}"}}}
-endfunction"}}}
+" \  }, "}}} "}}}
+" \} "}}}
+endfunction "}}}
 
-function! s:source.finalize()"{{{
+function! s:source.finalize() "{{{
   unlet s:objects
   unlet s:temp_objects
   unlet s:keywords
   unlet s:line
   unlet s:variables
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#initialize()"{{{
+function! excel_vba_complete#initialize() "{{{
   call s:source.initialize()
-endfunction"}}}
+endfunction "}}}
 
-function! s:source.get_keyword_pos(cur_text)"{{{
+function! s:source.get_keyword_pos(cur_text) "{{{
   if neocomplcache#within_comment()
     return -1
   endif
@@ -485,36 +486,72 @@ function! s:source.get_keyword_pos(cur_text)"{{{
     let s:keywords = []
     call excel_vba_complete#get_all_variables()
   endif
+
+  let dot = 0
+  let kkako = 0
+  let line = getline('.')
+  let s:start = col('.') - 2
+  let s:end = s:start
+  let orig_start = s:start
+
+  while s:start >= 0
+    "if line[s:start] =~ '\.'
+    if line[s:start] =~ '\.'
+      if kkako == 0
+        let dot += 1
+        let s:end = s:start - 1
+      endif
+      if dot >= 2
+        break
+      endif
+    endif
+    if line[s:start] =~ ')'
+      let kkako += 1
+    endif
+    if line[s:start] =~ '('
+      if kkako > 0
+        let kkako -= 1
+        let s:end = s:start - 1
+      endif
+    endif
+    if line[s:start] =~ '\s'
+    "if line[s:start] =~ '[:blank:]'
+    "if line[s:start] =~ '[:[:blank:]]' 
+      if kkako == 0
+        break
+      endif
+    endif
+    let s:start -= 1
+  endwhile
+
+  let g:temp['cur_text'] = a:cur_text
+  let g:temp['s_start'] = s:start
+  let g:temp['s_end'] = s:end
+  let g:temp['orig_start'] = orig_start
+  let g:temp['trigger'] = strpart(line, (s:start + 1), (s:end - s:start))
+  let g:temp['word'] = strpart(line, (s:start + 1), (orig_start - s:start))
+  "return s:start + 1
+
   for word1 in keys(s:variables)
-    if a:cur_text =~# word1
+    if a:cur_text =~ word1
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'property')
       call excel_vba_complete#gather_keywords(s:keywords, word1, 'method')
-      return match(a:cur_text, word1.".")
+      let g:temp['match'] = match(a:cur_text, word1.'.')
+      return match(a:cur_text, word1.'.')
       break
     endif
   endfor
 
-  let l:line = getline(".")
-  let l:start = col(".") - 1 
-  while l:start >= 0
-    if l:line[l:start] =~ '[:[:blank:]]' 
-      let l:start = -1
-      break
-    endif
-    if l:line[l:start - 1] =~ '.'
-      break
-    endif
-    let l:start -= 1
-  endwhile
-  return l:start
+endfunction "}}}
 
-endfunction"}}}
-
-function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str)"{{{
+function! s:source.get_complete_words(cur_keyword_pos, cur_keyword_str) "{{{
+  let g:temp['cur_keyword_pos'] = a:cur_keyword_pos
+  let g:temp['cur_keyword_str'] = a:cur_keyword_str
+  let g:temp['s_keywords'] = deepcopy(s:keywords)
   return neocomplcache#keyword_filter(copy(s:keywords), a:cur_keyword_str)
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#gather_keywords(dict, word, flg)"{{{
+function! excel_vba_complete#gather_keywords(dict, word, flg) "{{{
   for key in keys(s:objects[s:variables[a:word]['type']][a:flg])
     call add(a:dict, { 
      \ 'word' : a:word . '.' . key,
@@ -523,9 +560,9 @@ function! excel_vba_complete#gather_keywords(dict, word, flg)"{{{
      \ 'kind' : s:objects[s:variables[a:word]['type']][a:flg][key]['kind']
      \ })
   endfor
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#get_variables(line)"{{{
+function! excel_vba_complete#get_variables(line) "{{{
   "let temp_line = substitute(a:line, '\s', '', 'g')
   "echo temp_line
   "if a:line=~ 'Dim' || a:line =~ 'dim'
@@ -544,9 +581,9 @@ function! excel_vba_complete#get_variables(line)"{{{
       endif  
     endfor
   endif
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#get_all_variables()"{{{
+function! excel_vba_complete#get_all_variables() "{{{
   let s:variables = {}
   let lines = getline(0, line("$"))
   "for line in lines
@@ -555,43 +592,43 @@ function! excel_vba_complete#get_all_variables()"{{{
   for line in lines
     call excel_vba_complete#get_variables(line)
   endfor
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#show_keywords()"{{{"{{{
+function! excel_vba_complete#show_keywords() "{{{ "{{{
   echo s:keywords
-endfunction"}}}"}}}
+endfunction "}}} "}}}
 
-function! excel_vba_complete#show_all_variables()"{{{
+function! excel_vba_complete#show_all_variables() "{{{
   for i in keys(s:variables)
     echo ' key: ' . i . ', type: ' . s:variables[i]['type']
   endfor
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#show_variable(word)"{{{"{{{
+function! excel_vba_complete#show_variable(word) "{{{ "{{{
   echo s:variables[a:word]['type']
-endfunction"}}}"}}}
+endfunction "}}} "}}}
 
-function! excel_vba_complete#show_all_objects()"{{{
+function! excel_vba_complete#show_all_objects() "{{{
   for i in keys(s:objects)
     echo ' key: ' . i 
   endfor
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#show_object(object)"{{{
+function! excel_vba_complete#show_object(object) "{{{
   echo s:objects[a:object]
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#show_all_temp_objects()"{{{
+function! excel_vba_complete#show_all_temp_objects() "{{{
   for i in keys(s:temp_objects)
     echo s:temp_objects[i]
   endfor 
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#show_temp_object(object)"{{{
+function! excel_vba_complete#show_temp_object(object) "{{{
   echo s:temp_objects[a:object]
-endfunction"}}}
+endfunction "}}}
 
-function! excel_vba_complete#add_temp_object(class, member, kind)"{{{
+function! excel_vba_complete#add_temp_object(class, member, kind) "{{{
   "echo "class:" . a:class . ", member:" . a:member . ", kind:" . a:kind
   if has_key(s:objects, a:class)
     "echo "has class"
@@ -608,9 +645,9 @@ function! excel_vba_complete#add_temp_object(class, member, kind)"{{{
       let s:objects[a:class]["member"][a:member] = a:kind
     endif
   endif
-endfunction"}}}
+endfunction "}}}
 
-"function! excel_vba_complete#find_require_line(line)"{{{
+"function! excel_vba_complete#find_require_line(line) "{{{
 "  let aft0 = substitute(a:line, " ", "", "g")
 "  "echo "aft0:" . aft0
 "  let aft1 = substitute(aft0, "'", "\"", "g")
@@ -621,9 +658,9 @@ endfunction"}}}
 "    "echo list[2]
 "    call excel_vba_complete#glob_require_file(list[2])
 "  endif
-"endfunction"}}}
+"endfunction "}}}
 "
-"function! excel_vba_complete#glob_require_file(filename)"{{{
+"function! excel_vba_complete#glob_require_file(filename) "{{{
 "  let base = "./" . a:filename . ".coffee"
 "  "echo base
 "  let filelist = glob(base)
@@ -643,9 +680,9 @@ endfunction"}}}
 "      endfor
 "    endif
 "  endfor
-"endfunction"}}}
+"endfunction "}}}
 "
-"function! excel_vba_complete#find_member_line(line)"{{{
+"function! excel_vba_complete#find_member_line(line) "{{{
 "  let res = []
 "  let aft0 = substitute(a:line, " ", "", "g")
 "  if aft0 =~ "->" || aft0 =~ "=>"
@@ -659,7 +696,7 @@ endfunction"}}}
 "  "  let res = [list[1],'v']
 "  endif
 "  return res
-"endfunction"}}}
+"endfunction "}}}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
